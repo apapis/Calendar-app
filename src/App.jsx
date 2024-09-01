@@ -1,34 +1,36 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import Paper from "@mui/material/Paper";
+import { ViewState } from "@devexpress/dx-react-scheduler";
+import {
+  Scheduler,
+  WeekView,
+  Toolbar,
+  DateNavigator,
+  Appointments,
+  TodayButton,
+} from "@devexpress/dx-react-scheduler-material-ui";
 import "./App.css";
-
+import { appointments } from "./data/appointments";
+import { useState } from "react";
 function App() {
-  const [count, setCount] = useState(0);
-
+  const [data, setData] = useState(appointments);
+  const [currentDate, setCurrentDate] = useState("2018-06-27");
+  const currentDateChange = (newDate) => {
+    setCurrentDate(newDate);
+  };
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Paper>
+      <Scheduler data={data} height={660}>
+        <ViewState
+          currentDate={currentDate}
+          onCurrentDateChange={currentDateChange}
+        />
+        <WeekView startDayHour={9} endDayHour={19} />
+        <Toolbar />
+        <DateNavigator />
+        <TodayButton />
+        <Appointments />
+      </Scheduler>
+    </Paper>
   );
 }
 
