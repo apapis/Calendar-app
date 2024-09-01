@@ -280,4 +280,11 @@ export const appointments = [
     id: 39,
     location: "Room 1",
   },
+  {
+    title: "HELLO",
+    startDate: new Date(2024, 5, 25, 9, 35),
+    endDate: new Date(2024, 5, 29, 11, 30),
+    id: 40,
+    location: "Room 1",
+  },
 ];
