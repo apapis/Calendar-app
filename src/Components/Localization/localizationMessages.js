@@ -37,7 +37,7 @@ const localizationMessages = {
       endRepeatLabel: "Koniec powtarzania",
       onLabel: "Dnia",
       afterLabel: "Po",
-      occurrencesLabel: "wystąpieniach",
+      occurrencesLabel: "powtórzenia",
       weeksOnLabel: "tygodni w",
       monthsLabel: "miesięcy",
       ofEveryMonthLabel: "każdego miesiąca",
