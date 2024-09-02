@@ -1,7 +1,8 @@
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import localizationMessages from "./data/localizationMessages";
+import PropTypes from "prop-types";
+
 const PREFIX = "LocaleSwitcher";
 
 const classes = {
@@ -42,4 +43,7 @@ export const LocaleSwitcher = ({ currentLocale, onLocaleChange }) => {
   );
 };
 
-export const getMessages = (locale) => localizationMessages[locale];
+LocaleSwitcher.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  onLocaleChange: PropTypes.func.isRequired,
+};

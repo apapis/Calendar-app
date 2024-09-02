@@ -22,7 +22,8 @@ import "./App.css";
 import { useSchedulerState } from "./hooks/useSchedulerState";
 import { useAppointmentChanges } from "./hooks/useAppointmentChanges";
 import firebaseOperation from "./data/firebaseOperation";
-import { LocaleSwitcher, getMessages } from "./LocaleSwitcher";
+import { LocaleSwitcher } from "./Components/Localization/LocaleSwitcher";
+import { getMessages } from "./Components/Localization/localizationUtils";
 
 function App() {
   const [currentViewName, setCurrentViewName] = useState("Week");
