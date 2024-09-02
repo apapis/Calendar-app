@@ -43,8 +43,8 @@ const addNewAppointment = async (newAppointment) => {
       allDay: formattedAppointment.allDay,
       location: formattedAppointment.location,
       rRule: formattedAppointment.rRule,
+      priority: formattedAppointment.priority || "medium",
     });
-    // Zwrócenie nowego spotkania z identyfikatorem
     return { ...formattedAppointment, id: docRef.id };
   } catch (err) {
     console.log(err);

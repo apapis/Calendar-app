@@ -1,3 +1,3 @@
-import localizationMessages from "../../data/localizationMessages";
+import localizationMessages from "./localizationMessages";
 
 export const getMessages = (locale) => localizationMessages[locale];

@@ -24,6 +24,8 @@ import { useAppointmentChanges } from "./hooks/useAppointmentChanges";
 import firebaseOperation from "./data/firebaseOperation";
 import { LocaleSwitcher } from "./Components/Localization/LocaleSwitcher";
 import { getMessages } from "./Components/Localization/localizationUtils";
+import { Appointment } from "./Components/Appointment/Appointment";
+import { CustomAppointmentForm } from "./Components/Appointment/CustomAppointmentForm";
 
 function App() {
   const [currentViewName, setCurrentViewName] = useState("Week");
@@ -52,6 +54,7 @@ function App() {
           ...appointment,
           startDate: new Date(appointment.startDate),
           endDate: new Date(appointment.endDate),
+          priority: appointment.priority || "medium",
         }));
         setAppointments(formattedData);
       } catch (error) {
@@ -116,7 +119,7 @@ function App() {
           <AllDayPanel messages={messages} />
           <EditRecurrenceMenu messages={messages.editRecurrenceMenu} />
           <ConfirmationDialog messages={messages.confirmationDialog} />
-          <Appointments />
+          <Appointments appointmentComponent={Appointment} />
           <AppointmentTooltip
             showCloseButton
             showOpenButton
@@ -124,8 +127,8 @@ function App() {
             messages={messages.appointmentTooltip}
           />
           <AppointmentForm
+            basicLayoutComponent={CustomAppointmentForm}
             messages={messages.appointmentForm}
-            readOnly={false}
           />
           <DragDropProvider />
         </Scheduler>

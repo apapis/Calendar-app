@@ -77,6 +77,12 @@ const localizationMessages = {
       day: "Dzień",
       agenda: "Agenda",
     },
+    priority: {
+      label: "Priorytet",
+      low: "Niski",
+      medium: "Średni",
+      high: "Wysoki",
+    },
   },
   "en-US": {
     today: "Today",
@@ -155,6 +161,12 @@ const localizationMessages = {
       workWeek: "Work Week",
       day: "Day",
       agenda: "Agenda",
+    },
+    priority: {
+      label: "Priority",
+      low: "Low",
+      medium: "Medium",
+      high: "High",
     },
   },
 };

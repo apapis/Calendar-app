@@ -34,6 +34,7 @@ export const useAppointmentChanges = (setData) => {
           allDay: added.allDay || false,
           location: added.location || "",
           rRule: added.rRule || "",
+          priority: added.priority || "medium",
         };
         const addedAppointment = await firebaseOperation.addNewAppointment(
           newAppointment
@@ -54,6 +55,7 @@ export const useAppointmentChanges = (setData) => {
               endDate: changes.endDate
                 ? new Date(changes.endDate).toISOString()
                 : undefined,
+              priority: changes.priority,
             };
 
             const cleanedChanges = Object.fromEntries(
