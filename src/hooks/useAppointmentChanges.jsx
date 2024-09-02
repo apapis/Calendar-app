@@ -1,43 +1,70 @@
-// hooks/useAppointmentChanges.js
 import { useState } from "react";
+import firebaseOperation from "../data/firebaseOperation";
 
 export const useAppointmentChanges = (setData) => {
   const [addedAppointment, setAddedAppointment] = useState({});
   const [appointmentChanges, setAppointmentChanges] = useState({});
   const [editingAppointment, setEditingAppointment] = useState(undefined);
 
-  const changeAddedAppointment = (addedAppointment) => {
-    setAddedAppointment(addedAppointment);
+  const changeAddedAppointment = (appointment) => {
+    setAddedAppointment(appointment);
   };
 
-  const changeAppointmentChanges = (appointmentChanges) => {
-    setAppointmentChanges(appointmentChanges);
+  const changeAppointmentChanges = (changes) => {
+    setAppointmentChanges(changes);
   };
 
-  const changeEditingAppointment = (editingAppointment) => {
-    setEditingAppointment(editingAppointment);
+  const changeEditingAppointment = (appointment) => {
+    setEditingAppointment(appointment);
   };
 
-  const commitChanges = ({ added, changed, deleted }) => {
-    setData((prevData) => {
-      let newData = [...prevData];
+  const commitChanges = async ({ added, changed, deleted }) => {
+    try {
+      let newData;
+
       if (added) {
-        const startingAddedId =
-          newData.length > 0 ? newData[newData.length - 1].id + 1 : 0;
-        newData = [...newData, { id: startingAddedId, ...added }];
-      }
-      if (changed) {
-        newData = newData.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
+        const startDate = added.startDate || new Date();
+        const endDate =
+          added.endDate || new Date(startDate.getTime() + 3600000); // domyślnie 1 godzina
+        const newAppointment = {
+          title: added.title || "Nowe spotkanie",
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          notes: added.notes || "",
+          allDay: added.allDay || false,
+          location: added.location || "",
+          rRule: added.rRule || "",
+        };
+        const addedAppointment = await firebaseOperation.addNewAppointment(
+          newAppointment
         );
+        newData = (prevData) => [...prevData, addedAppointment];
       }
+
+      if (changed) {
+        const [id, changes] = Object.entries(changed)[0];
+        await firebaseOperation.updateAppointment({ id, ...changes });
+        newData = (prevData) =>
+          prevData.map((appointment) =>
+            appointment.id === id ? { ...appointment, ...changes } : appointment
+          );
+      }
+
       if (deleted !== undefined) {
-        newData = newData.filter((appointment) => appointment.id !== deleted);
+        await firebaseOperation.deleteAppointment(deleted);
+        newData = (prevData) =>
+          prevData.filter((appointment) => appointment.id !== deleted);
       }
-      return newData;
-    });
+
+      setData((prevData) => {
+        if (typeof newData === "function") {
+          return newData(prevData);
+        }
+        return prevData;
+      });
+    } catch (error) {
+      console.error("Błąd podczas zapisywania zmian:", error);
+    }
   };
 
   return {

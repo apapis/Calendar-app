@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { ViewState, EditingState } from "@devexpress/dx-react-scheduler";
 import {
@@ -18,14 +18,16 @@ import {
   DayView,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import "./App.css";
-import { appointments } from "./data/appointments";
 import { useSchedulerState } from "./hooks/useSchedulerState";
 import { useAppointmentChanges } from "./hooks/useAppointmentChanges";
+import firebaseOperation from "./data/firebaseOperation";
 
 function App() {
   const [currentViewName, setCurrentViewName] = useState("Week");
+  const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { data, currentDate, setCurrentDate } = useSchedulerState(appointments);
+  const { currentDate, setCurrentDate } = useSchedulerState(appointments);
 
   const {
     addedAppointment,
@@ -35,11 +37,36 @@ function App() {
     editingAppointment,
     changeEditingAppointment,
     commitChanges,
-  } = useAppointmentChanges(data.setData);
+  } = useAppointmentChanges(setAppointments);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      setIsLoading(true);
+      try {
+        const data = await firebaseOperation.getAllAppointments();
+        const formattedData = data.map((appointment) => ({
+          ...appointment,
+          startDate: new Date(appointment.startDate),
+          endDate: new Date(appointment.endDate),
+        }));
+        setAppointments(formattedData);
+      } catch (error) {
+        console.error("Błąd podczas pobierania spotkań:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  if (isLoading) {
+    return <div>Ładowanie...</div>;
+  }
 
   return (
     <Paper>
-      <Scheduler data={data.value} height={700}>
+      <Scheduler data={appointments} height={700}>
         <ViewState
           defaultCurrentViewName="Week"
           currentViewName={currentViewName}
