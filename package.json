@@ -10,6 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@devexpress/dx-react-core": "4.0.8",
+    "@devexpress/dx-react-scheduler": "4.0.8",
+    "@devexpress/dx-react-scheduler-material-ui": "4.0.8",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/lab": "^5.0.0-alpha.117",
+    "@mui/material": "^5.11.6",
+    "@mui/x-date-pickers": "^5.0.15",
+    "firebase": "^10.13.1",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -23,6 +34,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "terser": "^5.31.6",
     "vite": "^5.4.1"
   }
 }
