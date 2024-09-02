@@ -35,7 +35,7 @@ const addNewAppointment = async (newAppointment) => {
     endDate: String(newAppointment.endDate),
   };
   try {
-    await addDoc(appointmentsRef, {
+    const docRef = await addDoc(appointmentsRef, {
       title: formattedAppointment.title,
       notes: formattedAppointment.notes,
       startDate: formattedAppointment.startDate,
@@ -44,7 +44,8 @@ const addNewAppointment = async (newAppointment) => {
       location: formattedAppointment.location,
       rRule: formattedAppointment.rRule,
     });
-    return newAppointment;
+    // Zwrócenie nowego spotkania z identyfikatorem
+    return { ...formattedAppointment, id: docRef.id };
   } catch (err) {
     console.log(err);
     return null;

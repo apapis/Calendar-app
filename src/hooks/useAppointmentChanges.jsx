@@ -25,7 +25,7 @@ export const useAppointmentChanges = (setData) => {
       if (added) {
         const startDate = added.startDate || new Date();
         const endDate =
-          added.endDate || new Date(startDate.getTime() + 3600000); // domyślnie 1 godzina
+          added.endDate || new Date(startDate.getTime() + 3600000);
         const newAppointment = {
           title: added.title || "Nowe spotkanie",
           startDate: startDate.toISOString(),
@@ -38,16 +38,28 @@ export const useAppointmentChanges = (setData) => {
         const addedAppointment = await firebaseOperation.addNewAppointment(
           newAppointment
         );
-        newData = (prevData) => [...prevData, addedAppointment];
+        if (addedAppointment) {
+          newData = (prevData) => [...prevData, addedAppointment];
+        }
       }
 
       if (changed) {
-        const [id, changes] = Object.entries(changed)[0];
-        await firebaseOperation.updateAppointment({ id, ...changes });
+        const changedPromises = Object.entries(changed).map(
+          async ([id, changes]) => {
+            await firebaseOperation.updateAppointment({ id, ...changes });
+            return { id, changes };
+          }
+        );
+        const updatedChanges = await Promise.all(changedPromises);
         newData = (prevData) =>
-          prevData.map((appointment) =>
-            appointment.id === id ? { ...appointment, ...changes } : appointment
-          );
+          prevData.map((appointment) => {
+            const changeSet = updatedChanges.find(
+              (change) => change.id === appointment.id
+            );
+            return changeSet
+              ? { ...appointment, ...changeSet.changes }
+              : appointment;
+          });
       }
 
       if (deleted !== undefined) {

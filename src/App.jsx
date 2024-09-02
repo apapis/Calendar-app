@@ -74,11 +74,11 @@ function App() {
 
   return (
     <>
-      <LocaleSwitcher
-        currentLocale={locale}
-        onLocaleChange={handleLocaleChange}
-      />
       <Paper>
+        <LocaleSwitcher
+          currentLocale={locale}
+          onLocaleChange={handleLocaleChange}
+        />
         <Scheduler data={appointments} height={700} locale={locale}>
           <ViewState
             defaultCurrentViewName="Week"
