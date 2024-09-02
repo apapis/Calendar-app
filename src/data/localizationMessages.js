@@ -67,6 +67,7 @@ const localizationMessages = {
       cancelButton: "Anuluj",
       commitButton: "Zastosuj",
       menuEditingTitle: "Edytuj powtarzające się spotkanie",
+      menuDeletingTitle: "Usuń powtarzające się spotkanie",
     },
     viewState: {
       today: "Dzisiaj",
@@ -145,6 +146,7 @@ const localizationMessages = {
       cancelButton: "Cancel",
       commitButton: "Apply",
       editTitle: "Edit Recurring Appointment",
+      menuDeletingTitle: "Delete recurring appointment",
     },
     viewState: {
       today: "Today",

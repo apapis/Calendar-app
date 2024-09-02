@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
-import {
-  ViewState,
-  EditingState,
-  IntegratedEditing,
-} from "@devexpress/dx-react-scheduler";
+import { ViewState, EditingState } from "@devexpress/dx-react-scheduler";
 import {
   Scheduler,
   Toolbar,
@@ -101,7 +97,6 @@ function App() {
             editingAppointment={editingAppointment}
             onEditingAppointmentChange={changeEditingAppointment}
           />
-          <IntegratedEditing />
           <MonthView displayName={messages.viewState.month} />
           <WeekView
             displayName={messages.viewState.week}

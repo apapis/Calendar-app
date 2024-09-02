@@ -58,7 +58,7 @@ export const useAppointmentChanges = (setData) => {
 
             const cleanedChanges = Object.fromEntries(
               Object.entries(formattedChanges).filter(
-                ([key, value]) => value !== undefined
+                ([, value]) => value !== undefined
               )
             );
 
@@ -93,6 +93,10 @@ export const useAppointmentChanges = (setData) => {
         }
         return prevData;
       });
+
+      // Refetch appointments to ensure state is updated correctly, especially for recurrences
+      const updatedAppointments = await firebaseOperation.getAllAppointments();
+      setData(updatedAppointments);
     } catch (error) {
       console.error("Błąd podczas zapisywania zmian:", error);
     }
