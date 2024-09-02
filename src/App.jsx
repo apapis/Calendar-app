@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
-import { ViewState, EditingState } from "@devexpress/dx-react-scheduler";
+import {
+  ViewState,
+  EditingState,
+  IntegratedEditing,
+} from "@devexpress/dx-react-scheduler";
 import {
   Scheduler,
   Toolbar,
@@ -16,6 +20,7 @@ import {
   MonthView,
   WeekView,
   DayView,
+  DragDropProvider,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import "./App.css";
 import { useSchedulerState } from "./hooks/useSchedulerState";
@@ -96,6 +101,7 @@ function App() {
             editingAppointment={editingAppointment}
             onEditingAppointmentChange={changeEditingAppointment}
           />
+          <IntegratedEditing />
           <MonthView messages={messages} />
           <WeekView startDayHour={9} endDayHour={19} />
           <DayView startDayHour={9} endDayHour={19} />
@@ -117,6 +123,7 @@ function App() {
             messages={messages.appointmentForm}
             readOnly={false}
           />
+          <DragDropProvider />
         </Scheduler>
       </Paper>
     </>

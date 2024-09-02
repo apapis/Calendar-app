@@ -46,8 +46,27 @@ export const useAppointmentChanges = (setData) => {
       if (changed) {
         const changedPromises = Object.entries(changed).map(
           async ([id, changes]) => {
-            await firebaseOperation.updateAppointment({ id, ...changes });
-            return { id, changes };
+            const formattedChanges = {
+              ...changes,
+              startDate: changes.startDate
+                ? new Date(changes.startDate).toISOString()
+                : undefined,
+              endDate: changes.endDate
+                ? new Date(changes.endDate).toISOString()
+                : undefined,
+            };
+
+            const cleanedChanges = Object.fromEntries(
+              Object.entries(formattedChanges).filter(
+                ([key, value]) => value !== undefined
+              )
+            );
+
+            await firebaseOperation.updateAppointment({
+              id,
+              ...cleanedChanges,
+            });
+            return { id, changes: cleanedChanges };
           }
         );
         const updatedChanges = await Promise.all(changedPromises);
