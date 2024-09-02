@@ -102,9 +102,17 @@ function App() {
             onEditingAppointmentChange={changeEditingAppointment}
           />
           <IntegratedEditing />
-          <MonthView messages={messages} />
-          <WeekView startDayHour={9} endDayHour={19} />
-          <DayView startDayHour={9} endDayHour={19} />
+          <MonthView displayName={messages.viewState.month} />
+          <WeekView
+            displayName={messages.viewState.week}
+            startDayHour={9}
+            endDayHour={19}
+          />
+          <DayView
+            displayName={messages.viewState.day}
+            startDayHour={9}
+            endDayHour={19}
+          />
           <Toolbar />
           <ViewSwitcher />
           <DateNavigator />
